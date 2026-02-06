@@ -1,0 +1,21 @@
+say "please select 1, 2, or 3 to select rock, paper, or scissors respectively"
+SWITCH
+CASE user inputs 1:
+    user choice is set to rock
+CASE user inputs 2:
+    user choice is set to paper
+CASE user inputs 3:
+    user choice is set to scissors
+DEFAULT:
+    say "please choose 1, 2, or 3"
+
+computer choice is set to random number between 1 and 3
+
+IF player and computer choose the same:
+    say "it is a tie"
+ELSE IF player wins:
+    say "player wins"
+    increase player win count by 1
+ELSE IF computer wins:
+    say "computer wins"
+    increase computer win count by 1
