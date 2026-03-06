@@ -1,66 +1,59 @@
 
 
 function getComputerChoice(){
-    let comChoice = Math.floor(Math.random()*3) + 1;
-    if(comChoice===1){
-        return "Rock";
-    }else if(comChoice===2){
-        return "Paper";
-    }else if(comChoice===3){
-        return "Scissors";
-    }else{
-        return null;
-    }
+    const choices = ["Rock", "Paper", "Scissors"];
+    return choices[Math.floor(Math.random() * 3)];
 }
 
-function getHumanChoice(){
-    let playerChoice = parseInt(prompt("Please choose a number between 1 and 3 (1:rock, 2:paper, 3:scissors"));
-        if(playerChoice===1){
-        return "Rock";
-    }else if(playerChoice===2){
-        return "Paper";
-    }else if(playerChoice===3){
-        return "Scissors";
-    }else{
-        return null;
-    }
-}
+function playRound(humanChoice, computerChoice) {
 
-function playRound(humanChoice, computerChoice){
-    if(humanChoice === computerChoice){
-        console.log("You both picked the same, it's a tie!")
-    }else if((humanChoice === "Rock" && computerChoice === "Scissors") || (humanChoice === "Paper" && computerChoice === "Rock") || (humanChoice === "Scissors" && computerChoice === "Paper")){
-        console.log("You win!");
+    playerPick.textContent = `You selected: ${humanChoice}`;
+    comPick.textContent = `Computer selected: ${computerChoice}`;
+
+    if (humanChoice === computerChoice) {
+        result.textContent = "You both picked the same, it's a tie!";
+    } else if ((humanChoice === "Rock" && computerChoice === "Scissors") || (humanChoice === "Paper" && computerChoice === "Rock") || (humanChoice === "Scissors" && computerChoice === "Paper")) {
+        result.textContent = "You win!";
         humanScore++
-    }else if((computerChoice === "Rock" && humanChoice === "Scissors") || (computerChoice === "Paper" && humanChoice === "Rock") || (computerChoice === "Scissors" && humanChoice === "Paper")){
-        console.log("You Lose.");
+    } else if ((computerChoice === "Rock" && humanChoice === "Scissors") || (computerChoice === "Paper" && humanChoice === "Rock") || (computerChoice === "Scissors" && humanChoice === "Paper")) {
+        result.textContent = "You Lose.";
         computerScore++;
-    }else{
-        console.log("Something went wrong");
+    } else {
+        result.textContent = "Something went wrong";
     }
 }
 
 let humanScore = 0;
 let computerScore = 0;
+let round = 0;
 
+const playerPick = document.querySelector("#playerPick");
+const comPick = document.querySelector("#comPick");
+const result = document.querySelector("#result");
+const winner = document.querySelector("#winner");
 
-function playGame(){
-    humanScore = 0;
-    computerScore = 0;
-    for(let i = 0; i<5; i++){
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
+const buttons = document.querySelectorAll("button");
 
-        playRound(humanSelection,computerSelection)
-    }
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
 
-    if(humanScore>computerScore){
-        console.log("You won the game!")
-    }else if(humanScore<computerScore){
-        console.log("You lost the game!")
-    }else{
-        console.log("something went wrong.")
-    }
-}
+        if (round >= 5) return;
 
-playGame();
+        const humanSelection = button.textContent;
+        const computerSelection = getComputerChoice();
+
+        playRound(humanSelection, computerSelection);
+
+        round++;
+
+        if (round === 5) {
+            if (humanScore > computerScore) {
+                winner.textContent = "You won the game!";
+            } else if (humanScore < computerScore) {
+                winner.textContent = "You lost the game!";
+            } else {
+                winner.textContent = "It's a tie!";
+            }
+        }
+    });
+});
